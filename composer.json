@@ -1,0 +1,22 @@
+{
+  "name": "example/project-name",
+  "description": "Your project description",
+  "keywords": ["Your keyword", "Another keyword"],
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Your Name",
+          "email": "your@email.com",
+          "role": "Creator / Main Developer"
+      }
+  ],
+  "require": {
+      "php": ">=7.0.0",
+      "filp/whoops": "~2.1"
+  },
+  "autoload": {
+      "psr-4": {
+          "Example\\": "src/"
+      }
+  }
+}
