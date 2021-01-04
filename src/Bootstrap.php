@@ -46,19 +46,29 @@ $response->send(); */
 /** 
  * Add Routing
 */
-$dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
+
+/* $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
   $r->addRoute('GET', '/hello-world', function () {
       echo 'Hello World';
   });
   $r->addRoute('GET', '/another-route', function () {
       echo 'This works too';
   });
-});
+}); */
+
+$routeDefinitionCallback = function (\FastRoute\RouteCollector $r) {
+    $routes = include('Routes.php');
+    foreach ($routes as $route) {
+        $r->addRoute($route[0], $route[1], $route[2]);
+    }
+};
+
+$dispatcher = \FastRoute\simpleDispatcher($routeDefinitionCallback);
 
 $uri = $_SERVER['REQUEST_URI'];
 
-if (false !== $pos = strpos($uri, '08')) {
-    $uri = substr($uri, $pos+2);
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
 }
 $uri = rawurldecode($uri);
 
