@@ -40,8 +40,8 @@ $response = new Response(
   ['content-type' => 'text/html']
 );
 
-$response->setContent('Hello World');
-$response->send();
+/* $response->setContent('Hello World');
+$response->send(); */
 
 /** 
  * Add Routing
@@ -55,7 +55,14 @@ $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r
   });
 });
 
-$routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getUri());
+$uri = $_SERVER['REQUEST_URI'];
+
+if (false !== $pos = strpos($uri, '08')) {
+    $uri = substr($uri, $pos+2);
+}
+$uri = rawurldecode($uri);
+
+$routeInfo = $dispatcher->dispatch($request->getMethod(), $uri);
 switch ($routeInfo[0]) {
     case \FastRoute\Dispatcher::NOT_FOUND:
         $response->setContent('404 - Page not found');
