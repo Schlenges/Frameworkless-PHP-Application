@@ -2,9 +2,6 @@
 
 namespace Example;
 
-/* use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response; */
-
 require __DIR__ . '/../vendor/autoload.php';
 
 error_reporting(E_ALL);
@@ -26,40 +23,14 @@ if ($environment !== 'production') {
 
 $whoops->register();
 
-/* throw new \Exception; */
-
-
 /**
  * Create Request and Response Objects
  */
-/* $request = Request::createFromGlobals();
-
-$response = new Response(
-  'Content',
-  Response::HTTP_OK,
-  ['content-type' => 'text/html']
-); */
 
 $injector = include('Dependencies.php');
 
 $request = $injector->make('Symfony\Component\HttpFoundation\Request');
 $response = $injector->make('Symfony\Component\HttpFoundation\Response');
-
-/* $response->setContent('Hello World');
-$response->send(); */
-
-/** 
- * Add Routing
-*/
-
-/* $dispatcher = \FastRoute\simpleDispatcher(function (\FastRoute\RouteCollector $r) {
-  $r->addRoute('GET', '/hello-world', function () {
-      echo 'Hello World';
-  });
-  $r->addRoute('GET', '/another-route', function () {
-      echo 'This works too';
-  });
-}); */
 
 $routeDefinitionCallback = function (\FastRoute\RouteCollector $r) {
     $routes = include('Routes.php');
@@ -90,9 +61,6 @@ switch ($routeInfo[0]) {
         $response->send();
         break;
     case \FastRoute\Dispatcher::FOUND:
-        /* $handler = $routeInfo[1];
-        $vars = $routeInfo[2];
-        call_user_func($handler, $vars); */
         $className = $routeInfo[1][0];
         $method = $routeInfo[1][1];
         $vars = $routeInfo[2];
